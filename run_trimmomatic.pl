@@ -9,9 +9,16 @@ use File::Basename;
 
 my $path;
 
-#hard coded
-my $adaptors = "/path/to/adapters.fasta"; 
-my @files=@ARGV;
+# First argument is path to adapters, rest are read files
+my ($adaptors, @files) = @ARGV;
+
+# Base command for trimmomatic
+# my $trimmomatic_cmd = "java -jar trimmomatic-0.33.jar"
+my $trimmomatic_cmd = "trimmomatic"
+
+# Common options to each run of trimmomatic - configure here
+my $options1 = "-phred33 -threads 12"
+my $options2 = "ILLUMINACLIP:$adaptors:2:20:10:8:TRUE SLIDINGWINDOW:20:30 LEADING:20 TRAILING:20 MINLEN:50"
 
 my %paired_files;
 foreach my $file (@files){
@@ -36,7 +43,7 @@ foreach my $name (sort keys %paired_files){
 	print "----------------------\n";
 	print "$paired_files{$name}[0]"." <--> "."$paired_files{$name}[1]"."\n";
 
-	my $cmd="java -jar trimmomatic-0.33.jar PE -phred33 -threads 12 $paired_files{$name}[0] $paired_files{$name}[1] $path$name"."_R1_paired_trimmed.fastq $path$name"."_R1_single_trimmed.fastq $path$name"."_R2_paired_trimmed.fastq $path$name"."_R2_single_trimmed.fastq ILLUMINACLIP:$adaptors:2:20:10:8:TRUE SLIDINGWINDOW:20:30 LEADING:20 TRAILING:20 MINLEN:50";
+	my $cmd="$trimmomatic_cmd PE $options1 $paired_files{$name}[0] $paired_files{$name}[1] $path$name"."_R1_paired_trimmed.fastq $path$name"."_R1_single_trimmed.fastq $path$name"."_R2_paired_trimmed.fastq $path$name"."_R2_single_trimmed.fastq $options2";
 	print $cmd,"\n";
 	die if system($cmd);
 }

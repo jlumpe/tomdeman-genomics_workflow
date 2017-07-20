@@ -1,0 +1,22 @@
+channels:
+  # Instead of using "default" here, specify default channels explicitly but
+  # omit the "r" channel. This is because for some reason this channel causes
+  # the "Solving package specifications" step to take forever... the R packages
+  # will be obtained from conda-forge instead.
+  - https://repo.continuum.io/pkgs/free
+  #- https://repo.continuum.io/pkgs/r
+  - https://repo.continuum.io/pkgs/pro
+
+  - conda-forge
+  - bioconda
+
+dependencies:
+  # General
+  - python=3.5
+
+  # Tools
+  - bbmap
+  - trimmomatic
+  - spades
+  - busco
+  - prokka

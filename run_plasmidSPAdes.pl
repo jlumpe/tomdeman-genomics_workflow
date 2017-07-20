@@ -9,6 +9,9 @@ use File::Basename;
 
 my @files=@ARGV;
 
+# Configurable options for SPAdes run
+my $spades_opts = "-t 12 --careful"
+
 my %paired_files;
 foreach my $file (@files){
 	my ($file_name,$dir)=fileparse($file);
@@ -31,7 +34,7 @@ foreach my $name (sort keys %paired_files){
 	print "----------------------\n";
 	print "$paired_files{$name}[0]"." <--> "."$paired_files{$name}[1]"."\n";
 
-	my $cmd="spades.py -t 12 --plasmid --careful --only-assembler -1 $paired_files{$name}[0] -2 $paired_files{$name}[1] -o $name"."_PLASMID_contigs";
+	my $cmd="spades.py $spades_opts --plasmid --only-assembler -1 $paired_files{$name}[0] -2 $paired_files{$name}[1] -o $name"."_PLASMID_contigs";
 	print $cmd,"\n";
 	die if system($cmd);
 }

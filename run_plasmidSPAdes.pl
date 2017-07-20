@@ -10,7 +10,7 @@ use File::Basename;
 my @files=@ARGV;
 
 # Configurable options for SPAdes run
-my $spades_opts = "-t 12 --careful"
+my $spades_opts = "-t 12 --careful";
 
 my %paired_files;
 foreach my $file (@files){

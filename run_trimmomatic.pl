@@ -13,12 +13,12 @@ my $path;
 my ($adaptors, @files) = @ARGV;
 
 # Base command for trimmomatic
-# my $trimmomatic_cmd = "java -jar trimmomatic-0.33.jar"
-my $trimmomatic_cmd = "trimmomatic"
+# my $trimmomatic_cmd = "java -jar trimmomatic-0.33.jar";
+my $trimmomatic_cmd = "trimmomatic";
 
 # Common options to each run of trimmomatic - configure here
-my $options1 = "-phred33 -threads 12"
-my $options2 = "ILLUMINACLIP:$adaptors:2:20:10:8:TRUE SLIDINGWINDOW:20:30 LEADING:20 TRAILING:20 MINLEN:50"
+my $options1 = "-phred33 -threads 12";
+my $options2 = "ILLUMINACLIP:$adaptors:2:20:10:8:TRUE SLIDINGWINDOW:20:30 LEADING:20 TRAILING:20 MINLEN:50";
 
 my %paired_files;
 foreach my $file (@files){

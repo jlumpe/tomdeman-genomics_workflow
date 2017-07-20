@@ -12,7 +12,7 @@ use File::Basename;
 my ($DB, @files) = @ARGV;
 
 # Common arguments to each call to bbduk
-my $bbduk_args = "-Xmx20g threads=12 k=31 hdist=1 ref=$DB"
+my $bbduk_args = "-Xmx20g threads=12 k=31 hdist=1 ref=$DB";
 
 my $path;
 

@@ -1,5 +1,8 @@
 #!/bin/sh
 
+# Stop on first error
+set -e
+
 mkdir PhiX_free_reads
 mkdir trimmed_PhiX_free_reads
 mkdir assemblies

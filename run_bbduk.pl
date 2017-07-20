@@ -8,9 +8,12 @@ use warnings;
 use strict;
 use File::Basename;
 
-my @files=@ARGV;
-#for now hard coded, will change later
-my $DB = "/path/to/phiX174.fasta";
+# First argument is path to phiX174.fasta, rest are sequence files
+my ($DB, @files) = @ARGV;
+
+# Common arguments to each call to bbduk
+my $bbduk_args = "-Xmx20g threads=12 k=31 hdist=1 ref=$DB"
+
 my $path;
 
 my %paired_files;
@@ -36,5 +39,5 @@ foreach my $name (sort keys %paired_files){
 	print "----------------------\n";
 	print "$paired_files{$name}[0]"." <--> "."$paired_files{$name}[1]"."\n";
 
-	system("bbduk.sh -Xmx20g threads=12 in=$paired_files{$name}[0] in2=$paired_files{$name}[1] out=$path$name"."_R1_noPhiX out2=$path$name"."_R2_noPhiX ref=$DB k=31 hdist=1");
+	system("bbduk.sh $bbduk_args in=$paired_files{$name}[0] in2=$paired_files{$name}[1] out=$path$name"."_R1_noPhiX out2=$path$name"."_R2_noPhiX");
 }

@@ -41,7 +41,7 @@ for file in *_assembly/scaffolds.fasta; do new="$(echo "$file" | cut -d '_' -f 1
 for file in *_PLASMID_contigs/scaffolds.fasta; do new="$(echo "$file" | cut -d '_' -f 1)".scaffolds.fasta; cp "$file" "Plasmid_assemblies/$new"; done
 
 #filter contigs on length
-for i in assemblies/*.fasta; do perl contig_size_select.pl -low 500 $i > $i.500.fna; done
+for i in assemblies/*.fasta; do perl $DIR/contig_size_select.pl -low 500 $i > $i.500.fna; done
 mv assemblies/*.fna assemblies_500
 
 #Check if genomes are complete gene content wise. Make sure to add the right lineage db to -l

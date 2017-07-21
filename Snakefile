@@ -142,9 +142,10 @@ rule filter_contig_length:
 
 # Since we are cd-ing into a different directory, need to make paths absolute
 rule run_BUSCO:
-	input: [os.path.abspath(o) for o in rules.filter_contig_length.output]
+	input: rules.filter_contig_length.output,
 	params:
 		name=expand('{id}', id=IDS),
+		input_abs=[os.path.abspath(o) for o in rules.filter_contig_length.output],
 		lineage=os.path.abspath(config_key_or_fail(config, 'busco_lineage')),
 		tmpdir=expand('tmp_{id}', id=IDS),
 	output: expand('BUSCO_output/{id}', id=IDS)
@@ -153,7 +154,7 @@ rule run_BUSCO:
 		'\n'.join([
 			'cd BUSCO_output',
 			'export BUSCO_CONFIG_FILE={BUSCO_CONFIG_FILE}',
-			'run_BUSCO.py -i {input} -o {params.name} -l {params.lineage} -m geno -c {threads} -t {params.tmpdir}',
+			'run_BUSCO.py -i {params.input_abs} -o {params.name} -l {params.lineage} -m geno -c {threads} -t {params.tmpdir}',
 			'mv run_{params.name} {params.name}',
 			'rm -r {params.tmpdir}',
 		])

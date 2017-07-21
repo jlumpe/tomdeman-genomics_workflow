@@ -176,7 +176,11 @@ rule plot_BUSCO:
 
 rule annotate_prokka:
 	input: rules.filter_contig_length.output
-	output: expand('prokka/{id}', id=IDS)
+	output: expand('prokka_output/{id}', id=IDS)
+	params:
+		name=IDS,
+	shell:
+		'prokka --kingdom Bacteria --outdir {output} --locustag {params.name} {input}'
 	
 
 rule all:

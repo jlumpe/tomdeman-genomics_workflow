@@ -12,6 +12,9 @@ DIR=`dirname $(readlink -f $0)`
 # These are still hard-coded for now - change them
 BUSCO_LINEAGE=/path/to/BUSCO/lineage_data/species_odb9
 
+# Inform BUSCO of the config file location using environment variable
+export BUSCO_CONFIG_FILE=$DIR/busco_config.ini
+
 # Create output directories
 mkdir PhiX_free_reads
 mkdir trimmed_PhiX_free_reads
@@ -47,12 +50,13 @@ for i in assemblies_500/*.fna
 do
 	location="$(echo "$i" | cut -d '.' -f 1)"
 	name="$(echo "$location" | cut -d '/' -f 2)"
-	BUSCO.py -i $i -o BUSCO_$name -l $BUSCO_LINEAGE -m geno -c 12
+	run_BUSCO.py -i $i -o BUSCO_$name -l $BUSCO_LINEAGE -m geno -c 12
 done
 
 #take all BUSCO summaries and plot data
 for file in run_BUSCO_*/*.txt; do cp $file BUSCO_stats; done
-BUSCO_plot.py -wd BUSCO_stats
+# This is a stupid script name but it's the default for BUSCO installation
+generate_plot.py -wd BUSCO_stats
 
 #annotate HQ contigs
 for i in assemblies_500/*.fna
